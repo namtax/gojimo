@@ -1,0 +1,28 @@
+{
+"id": "d45945e4-b724-48ab-9f99-21e61f1648ad",
+"name": "11+ Common Entrance",
+"subjects": [
+{
+"id": "ef319206-aa64-41f5-ac67-17a4fb8d10f6",
+"title": "English",
+"link": "/api/v4/subjects/ef319206-aa64-41f5-ac67-17a4fb8d10f6",
+"colour": "#ECF7E2"
+},
+{
+"id": "0fe4c738-f43c-4a66-bd5b-fc9cf6255355",
+"title": "Maths",
+"link": "/api/v4/subjects/0fe4c738-f43c-4a66-bd5b-fc9cf6255355",
+"colour": "#EAE1EF"
+},
+{
+"id": "5f0b46ba-f5ea-4eaa-8e62-a136a79c38df",
+"title": "Science",
+"link": "/api/v4/subjects/5f0b46ba-f5ea-4eaa-8e62-a136a79c38df",
+"colour": "#DFDFDF"
+}
+],
+"default_products": [ ],
+"created_at": "2014-04-12T10:06:33.000Z",
+"updated_at": "2015-01-23T02:17:14.000Z",
+"link": "/api/v4/qualifications/d45945e4-b724-48ab-9f99-21e61f1648ad"
+}
