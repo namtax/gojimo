@@ -17,7 +17,9 @@ end
 RSpec.configure do |c|
   c.include Capybara::DSL
   c.include FixAll
+  c.before(:each) do
+    FileUtils.rm_f(File.expand_path('data/response.json'))
+  end
 end
 
 Capybara.app = Gojimo
-

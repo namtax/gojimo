@@ -1,4 +1,5 @@
 %h1= @qualification.name
 %ul
 - @qualification.subjects.each do |s|
-  %li= s.title
+  %li{:style => "background:#{s.colour}"}= s.title
+
