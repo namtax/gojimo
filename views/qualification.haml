@@ -1,0 +1,4 @@
+%h1= @qualification.name
+%ul
+- @qualification.subjects.each do |s|
+  %li= s.title

@@ -1,0 +1,4 @@
+%ol
+- @qualifications.each do |q|
+  %li
+    %a(href="/#{URI.encode(q.name)}")= q.name
