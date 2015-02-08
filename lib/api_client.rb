@@ -3,14 +3,24 @@ require 'net/http'
 class ApiClient
   def self.response
     begin
-      _res = Net::HTTP.get(uri)
+      Net::HTTP.start(*opts, &method(:start))
     rescue => e
-      nil
     end
-    _res
   end
 
   private
+
+  def self.opts
+    [uri.host, uri.port, use_ssl: true]
+  end
+
+  def self.start(http)
+    http.request(request).body
+  end
+
+  def self.request
+    Net::HTTP::Get.new(uri.path)
+  end
 
   def self.uri
     URI(api_endpoint)

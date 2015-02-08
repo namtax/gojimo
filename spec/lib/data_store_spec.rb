@@ -12,8 +12,9 @@ describe DataStore do
     end
 
     context 'data exists' do
+      let(:response) { double( body: {}.to_json ) }
       it 'contacts api once' do
-        expect(Net::HTTP).to receive(:get).once.and_return(response)
+        expect(Net::HTTP).to receive(:start).once.and_return(response)
         described_class.new
         described_class.new
       end
@@ -27,14 +28,14 @@ describe DataStore do
       end
 
       it 'contacts api' do
-        expect(Net::HTTP).to receive(:get).once.and_return(response)
+        expect(Net::HTTP).to receive(:start).once.and_return(response)
         described_class.new
         described_class.new
       end
 
       context 'server down' do
         it 'leaves expired data' do
-          allow(Net::HTTP).to receive(:get).and_raise
+          allow(Net::HTTP).to receive(:start).and_raise
           described_class.new
           expect(((Time.now - File.mtime(data_file)) / 3600).to_i).to eq 2
         end
