@@ -1,7 +1,7 @@
 require 'net/http'
 
 class ApiClient
-  def self.response
+  def response
     begin
       Net::HTTP.start(*opts, &method(:start))
     rescue => e
@@ -10,23 +10,36 @@ class ApiClient
 
   private
 
-  def self.opts
+  def opts
     [uri.host, uri.port, use_ssl: true]
   end
 
-  def self.start(http)
-    http.request(request).body
+  def start(http)
+    http.request(request)
   end
 
-  def self.request
-    Net::HTTP::Get.new(uri.path)
+  def request
+    req = Net::HTTP::Get.new(uri.request_uri)
+    req['If-None-Match'] = %Q[\"#{etag}\"]
+    req
   end
 
-  def self.uri
+  def uri
     URI(api_endpoint)
   end
 
-  def self.api_endpoint
-    %q[https://api.gojimo.net/api/v4/qualifications]
+  def api_endpoint
+    Configuration.api_endpoint
+  end
+
+  def etag
+    data_dir
+      .children(false)[0]
+      .to_s
+      .gsub('.json','') if data_dir.children
+  end
+
+  def data_dir
+    Pathname(Configuration.data_dir)
   end
 end

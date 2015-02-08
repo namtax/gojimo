@@ -3,11 +3,11 @@ describe Qualification do
   let(:input) { JSON.parse(raw, symbolize_names: true)}
   let(:raw)   { File.read(File.expand_path('spec/support/fixtures/qualifications.json')) }
 
-  before	  { allow_any_instance_of(DataStore).to receive(:all).and_return(res) }
+  before      { allow_any_instance_of(DataStore).to receive(:fetch).and_return(res) }
   let(:res)   { [ { id: 11, name: 'GCSE'} ] }
 
   describe '.all' do
-    let(:actual)		 { Qualification.all.first }
+    let(:actual) { Qualification.all.first }
     it 'returns qualification collection' do
       expect(actual).to be_an(Qualification)
       expect(actual.id).to eq 11
@@ -16,7 +16,7 @@ describe Qualification do
   end
 
   describe '.find' do
-    let(:actual)		 { Qualification.find('GCSE') }
+    let(:actual)  { Qualification.find('GCSE') }
     it 'returns correct qualification' do
       expect(actual.id).to eq 11
       expect(actual.name).to eq 'GCSE'

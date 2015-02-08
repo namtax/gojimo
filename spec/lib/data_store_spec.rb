@@ -1,7 +1,8 @@
 require 'active_support/time'
 
 describe DataStore do
-  let(:response) { {}.to_json }
+  let(:data_file) { "#{Configuration.data_dir}/#{file_name}" }
+  let(:file_name) { %q[d2a23232b050d373d76b474a7f7a4fc6.json] }
 
   describe '.initialize' do
     context 'fresh request' do
@@ -12,30 +13,33 @@ describe DataStore do
     end
 
     context 'data exists' do
-      let(:response) { double( body: {}.to_json ) }
-      it 'contacts api once' do
-        expect(Net::HTTP).to receive(:start).once.and_return(response)
-        described_class.new
-        described_class.new
-      end
-    end
-
-    context 'expired data' do
       before do
-        allow(Net::HTTP).to receive(:get).and_return(response)
         described_class.new
         FileUtils.touch data_file, :mtime => Time.now - 2.hours
       end
 
-      it 'contacts api' do
-        expect(Net::HTTP).to receive(:start).once.and_return(response)
+      it 'does not overwrite old data' do
         described_class.new
         described_class.new
+        expect(((Time.now - File.mtime(data_file)) / 3600).to_i).to eq 2
+      end
+
+      context 'api changes' do
+        let(:api_client) { double( response: response ) }
+        let(:response)   { double( :[] => etag, body: {}.to_json, code: "200" ) }
+        let(:etag)       { "999" }
+
+        it 'creates new data file' do
+          allow(ApiClient).to receive(:new).and_return(api_client)
+          described_class.new
+          expect(Dir["#{Configuration.data_dir}/*"].count).to be 1
+          expect(File.exists?("#{Configuration.data_dir}/999.json")).to be true
+        end
       end
 
       context 'server down' do
-        it 'leaves expired data' do
-          allow(Net::HTTP).to receive(:start).and_raise
+        it 'does not overwrite old data' do
+          allow(ApiClient).to receive(:response).and_return(nil)
           described_class.new
           expect(((Time.now - File.mtime(data_file)) / 3600).to_i).to eq 2
         end
@@ -43,13 +47,9 @@ describe DataStore do
     end
   end
 
-  describe '#all' do
-    let(:actual) { subject.all }
+  describe '#fetch' do
+    let(:actual) { subject.fetch }
     it { expect(actual.size).to eq 9 }
     it { expect(actual.first.keys).to all( be_an(Symbol)) }
-  end
-
-  def data_file
-    File.expand_path('data/response.json')
   end
 end

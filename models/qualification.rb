@@ -4,7 +4,7 @@ class Qualification
   def self.all
     @all ||= DataStore
       .new
-      .all
+      .fetch
       .map(&method(:new))
   end
 

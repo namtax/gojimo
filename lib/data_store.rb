@@ -1,20 +1,21 @@
 require 'json'
 
 class DataStore
-  attr_reader :response
+  attr_reader :client, :response
 
   CACHE_LENGTH = 1
 
-  def initialize
+  def initialize(client = ApiClient.new)
+    @client = client
     store
   end
 
-  def all
+  def fetch
     serialize(raw_json)
   end
 
   def store
-    fetch_from_api && write unless data_healthy?
+    (clear && write) if (valid_response? && empty?)
   end
 
   private
@@ -28,30 +29,34 @@ class DataStore
   end
 
   def data_file
-    File.expand_path('data/response.json')
+    "#{data_dir}/#{etag}.json"
   end
 
-  def fetch_from_api
-    @response ||= ApiClient.response
+  def data_dir
+    Configuration.data_dir
+  end
+
+  def etag
+    response['etag'].gsub('"','')
+  end
+
+  def clear
+    Dir["#{data_dir}/*"].each { |f| FileUtils.rm_f(f) }
   end
 
   def write
-    open(data_file, 'w') { |f| f.write response } if response
+    open(data_file, 'w') { |f| f.write response.body }
   end
 
-  def data_healthy?
-    File.exists?(data_file) && cache_fresh?
+  def valid_response?
+    (response && response.code["200"])
   end
 
-  def cache_fresh?
-    ((Time.now - File.mtime(data_file)) / 3600) < CACHE_LENGTH
+  def response
+    @response ||= client.response
   end
 
-  def uri
-    URI(api_endpoint)
-  end
-
-  def api_endpoint
-    %q[https://api.gojimo.net/api/v4/qualifications]
+  def empty?
+    !File.exists?(data_file)
   end
 end
