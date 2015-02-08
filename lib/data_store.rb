@@ -3,8 +3,6 @@ require 'json'
 class DataStore
   attr_reader :client, :response
 
-  CACHE_LENGTH = 1
-
   def initialize(client = ApiClient.new)
     @client = client
     store
@@ -37,15 +35,19 @@ class DataStore
   end
 
   def etag
-    response['etag'].gsub('"','')
+    response['etag'].gsub(/\"/,'')
   end
 
   def clear
-    Dir["#{data_dir}/*"].each { |f| FileUtils.rm_f(f) }
+    Dir["#{data_dir}/*"].each do |f|
+      FileUtils.rm_f(f)
+    end
   end
 
   def write
-    open(data_file, 'w') { |f| f.write response.body }
+    open(data_file, 'w') do |f|
+      f.write response.body
+    end
   end
 
   def valid_response?

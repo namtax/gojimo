@@ -5,6 +5,7 @@ class ApiClient
     begin
       Net::HTTP.start(*opts, &method(:start))
     rescue => e
+      nil
     end
   end
 
