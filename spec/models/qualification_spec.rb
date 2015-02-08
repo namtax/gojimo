@@ -3,7 +3,7 @@ describe Qualification do
   let(:input) { JSON.parse(raw, symbolize_names: true)}
   let(:raw)   { File.read(File.expand_path('spec/support/fixtures/qualifications.json')) }
 
-  before	  { allow_any_instance_of(ApiClient).to receive(:response).and_return(res) }
+  before	  { allow_any_instance_of(DataStore).to receive(:all).and_return(res) }
   let(:res)   { [ { id: 11, name: 'GCSE'} ] }
 
   describe '.all' do

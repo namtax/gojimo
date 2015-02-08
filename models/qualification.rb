@@ -2,9 +2,9 @@ class Qualification
   attr_reader :input
 
   def self.all
-    @all ||= ApiClient
+    @all ||= DataStore
       .new
-      .response
+      .all
       .map(&method(:new))
   end
 

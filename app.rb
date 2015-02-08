@@ -4,6 +4,7 @@ $:.unshift(File.expand_path('../models', '__FILE__'))
 require 'sinatra/base'
 require 'haml'
 require 'api_client'
+require 'data_store'
 require 'subject'
 require 'qualification'
 

@@ -5,6 +5,7 @@ require './app.rb'
 require 'api_client'
 require 'qualification'
 require 'subject'
+require 'data_store'
 require 'capybara/rspec'
 require 'pry'
 
