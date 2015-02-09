@@ -2,7 +2,7 @@ require 'active_support/time'
 
 describe DataStore do
   let(:data_file) { "#{Configuration.data_dir}/#{file_name}" }
-  let(:file_name) { %q[d2a23232b050d373d76b474a7f7a4fc6.json] }
+  let(:file_name) { %q[8f85320b81f6733298390fb0b05f5728.json] }
 
   describe '.initialize' do
     context 'fresh request' do

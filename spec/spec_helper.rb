@@ -1,12 +1,4 @@
-$:.unshift(File.expand_path('../lib', '__FILE__'))
-$:.unshift(File.expand_path('../models', '__FILE__'))
-
 require './app.rb'
-require 'api_client'
-require 'configuration'
-require 'data_store'
-require 'qualification'
-require 'subject'
 require 'capybara/rspec'
 require 'pry'
 

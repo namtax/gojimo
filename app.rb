@@ -7,6 +7,7 @@ require 'api_client'
 require 'configuration'
 require 'data_store'
 require 'qualification'
+require 'pathname'
 require 'subject'
 
 class Gojimo < Sinatra::Base
