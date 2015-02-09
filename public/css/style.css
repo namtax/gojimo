@@ -1,0 +1,36 @@
+/* HTML */
+
+body {
+  font-family: 'Monda', sans-serif;
+}
+
+a {
+  color: black;
+}
+
+/* SHARED */
+
+#header h1{
+  font-size: 400%;
+}
+
+#header a:hover {
+  text-decoration: none;
+}
+
+
+/* INDEX */
+
+#quals{
+  padding: 5px 0px;
+}
+
+/* QUALIFICATION */
+
+#qual h2{
+  margin-bottom: 15px;
+}
+
+#qual li{
+  padding: 10px 10px;
+}

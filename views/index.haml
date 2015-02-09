@@ -1,4 +1,5 @@
-%ol
-- @qualifications.each do |q|
-  %li
-    %a(href="/#{URI.encode(q.name)}")= q.name
+#quals
+  %ol
+  - @qualifications.each do |q|
+    %li
+      %a(href="/#{URI.encode(q.name)}")= q.name
