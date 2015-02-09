@@ -13,7 +13,14 @@ git clone git@github.com:namtax/gojimo.git
 Create data directories
 
 ```
-cd gojimo && mkdir tmp data
+mkdir tmp data
+```
+
+Install dependencies
+
+```
+cp .ruby-version.example .ruby-version
+bundle
 ```
 
 # Run
